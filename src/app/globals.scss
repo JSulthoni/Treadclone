@@ -1,0 +1,21 @@
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+
+	// Remove scrollbar
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
