@@ -58,12 +58,13 @@ export const POST = async (req) => {
             JSON.stringify({ message: 'Not Authenticated!' }, { status: 401 })
         )
     };
+
     try {
         const body = await req.json();
-        console.log('Body: ', body)
+        console.log(body) 
         const createdPost = await prisma.post.create({
             data: { 
-                ...body, 
+                ...body,
                 userEmail: session.user.email,
                 postTags: {
                     create: await Promise.all(body.postTags.map( async(tag) => {

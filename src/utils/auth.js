@@ -9,7 +9,7 @@ export const authOptions = {
     // Adding prisma adapter
     adapter: PrismaAdapter(prisma),
     // Enabling debug messages for authentication and database operations
-    debug: true,
+    debug: false,
     // Adding secret
     secret: process.env.NEXTAUTH_SECRET,
     // Configure one or more authentication providers

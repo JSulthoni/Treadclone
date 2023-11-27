@@ -15,27 +15,30 @@ import {
     Article,
     Home, 
     Inbox, 
-    Login, 
     ModeNight, 
     PushPin, 
     Settings, 
     SubjectOutlined } from '@mui/icons-material';
-import { signOut, useSession } from 'next-auth/react';
 import { ModeContext } from '@/context/ModeContext';
+import loggedIn from '@/utils/loggedin';
 
 const styleBox = {
     width: {md: '30%', lg: '20%'}
 };
 
+const bar = {
+    'Home' : <Home/>
+}
+
 const Sidebar = () => {
     const { mode, toggle } = useContext(ModeContext);
-    const { status } = useSession();
 
     return (
         <Box sx={{flex:'1 1 20%', display: {xs: 'none', sm: 'block'}}}>
             <Box position='fixed' sx={styleBox}>
                 <Paper>
-                    <nav aria-label="main nav folders">
+                    { loggedIn() ? 
+                    <nav>
                         <List>
                             <ListItem disablePadding>
                                 <ListItemButton component='a' href='/'>
@@ -54,9 +57,7 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </ListItem>
                         </List>
-                    </nav>
                     <Divider />
-                    <nav>
                         <List>
                             {['Direct Messages', 'Pinned', 'Drafts', 'Apps'].map((text, index) => (
                             <ListItem key={text} disablePadding>
@@ -69,9 +70,7 @@ const Sidebar = () => {
                             </ListItem>
                             ))}
                         </List>
-                    </nav>
                     <Divider />
-                    <nav aria-label="secondary nav folders">
                         <List>
                             <ListItem disablePadding>
                                 <ListItemButton>
@@ -81,15 +80,6 @@ const Sidebar = () => {
                                     <ListItemText primary="Settings" />
                                 </ListItemButton>
                             </ListItem>
-                            { status === 'authenticated' && 
-                            <ListItem disablePadding>
-                                <ListItemButton onClick={signOut}>
-                                    <ListItemIcon>
-                                        <Login />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Logout" />
-                                </ListItemButton>
-                            </ListItem>}
                             <ListItem disablePadding>
                                 <ListItemButton >
                                     <ListItemIcon>
@@ -100,6 +90,27 @@ const Sidebar = () => {
                             </ListItem>
                         </List>
                     </nav>
+                    :
+                    <nav>
+                        <List>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <Settings />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Settings" />
+                                </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <ListItemButton >
+                                    <ListItemIcon>
+                                        <ModeNight />
+                                    </ListItemIcon>
+                                    <Switch onChange={toggle} checked={mode === 'dark'}/>
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                    </nav>}
                 </Paper>
             </Box>
         </Box>

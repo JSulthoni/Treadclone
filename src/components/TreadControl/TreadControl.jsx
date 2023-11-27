@@ -103,8 +103,8 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
     // Function to post a single tread
     const postTread = async () => {
         console.log('Request Payload:', {
-            title: title,
-            desc: desc,
+            title,
+            desc,
             img: imageURL,
             slug: slugify(title),
             postTags: tagify(desc)
@@ -112,12 +112,12 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
         const res = await fetch('http://localhost:3000/api/posts', {
             method: 'POST',
             body: JSON.stringify({
-                title: title,
-                desc: desc,
+                title,
+                desc,
                 img: imageURL,
                 slug: slugify(title),
                 postTags: tagify(desc)
-            }),
+            })
         });
         
         // throw error if post is unsuccessful
@@ -127,7 +127,9 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
 
         // Push user to the page of the post if post is successful
         const data = await res.json();
-        if (data !== undefined) {
+        console.log(data)
+
+        if (data) {
             router.refresh();
             // router.push(`/tread/${data.slug}`);
         }

@@ -13,7 +13,7 @@ import AddPost from '@/components/AddPost/AddPost';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'TREADS',
+  title: 'Treads',
   description: 'Treads for me and you',
 }
 
