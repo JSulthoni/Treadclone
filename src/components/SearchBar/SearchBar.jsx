@@ -1,33 +1,38 @@
 'use client'
 
 import InputAdornment from '@mui/material/InputAdornment';
-import { Box, TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import styles from './SearchBar.module.scss'
 import { useState } from 'react';
-
-const style = {
-    backgroundColor: 'transparent',
-    padding: '0',
-    display: 'flex',
-    justifyContent: 'stretch',
-    alignItems: 'center'
-};
+import { useRouter } from 'next/navigation';
 
 
 const SearchBar = () => {
     const [search, setSearch] = useState('')
-    const open = Boolean(search)
+    const open = Boolean(search);
+    const router = useRouter();
+
+    const onSearch = (event) => {
+        event.PreventDefault();
+        const encodedSearch = encodeURI(search);
+        console.log(encodedSearch)
+        router.push(`/search?query=${encodedSearch}`)
+    }
 
     return (
-        <Box sx={style}>
+        <form className={styles.container} onSubmit={onSearch}>
             <TextField
                 id= 'searchbar'
                 variant= 'outlined'
-                fullWidth 
+                fullWidth
+                value={search}
+                onChange={(event) => setSearch(event.target.value)} 
                 InputProps={{
                     startAdornment: <InputAdornment position="start">Search:</InputAdornment>,
-          }}
+                }}
             />
-        </Box>
+        </form>
     );
 }
 

@@ -28,7 +28,7 @@ const styleBox2 = {
 };
 
 const BASE_URL = process.env.BASE_URL
-const getNote = async (slug) => {
+const getTread = async (slug) => {
     const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
       cache: "no-store",
     });
@@ -40,9 +40,9 @@ const getNote = async (slug) => {
     return data;
 };
 
-const Note = async ({params}) => {
+const Tread = async ({params}) => {
     const { slug } = params;
-    const post = await getNote(slug)
+    const tread = await getTread(slug)
     return (
         <Box sx={styleBox1}>
             <Paper variant='outlined' sx={stylePaper}>
@@ -50,11 +50,11 @@ const Note = async ({params}) => {
                 variant='h3'>Treads</Typography>
             </Paper>
             <Box sx={styleBox2}>
-                <CardItem key={post.id} carddata={post}/>
+                <CardItem key={tread.id} carddata={tread}/>
                 <Comment slug={slug} />
             </Box>
         </Box>
     );
 }
 
-export default Note;
+export default Tread;

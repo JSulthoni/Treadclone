@@ -82,7 +82,7 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
         } else {
             console.log('no method')
         }
-    }
+    };
 
     // Function to create slug
     const slugify = (str) =>
@@ -98,7 +98,7 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
         const regex = /#(\w+)/g;
         const matches = str.match(regex);
         return matches ? matches.map((match) => match.slice(1).toLowerCase()) : []
-    }
+    };
 
     // Function to post a single tread
     const postTread = async () => {
@@ -131,7 +131,6 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
 
         if (data) {
             router.refresh();
-            // router.push(`/tread/${data.slug}`);
         }
     };
 

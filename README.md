@@ -23,6 +23,7 @@ yarn dev
 
 5. Try to create a post by navigate to homepage and clicking the tooltip at the bottom left corner the page.
 
+6. Look for logs in browser console or terminal to see the result of the request.
 
 ## Environment Variables
 
