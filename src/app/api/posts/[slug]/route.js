@@ -18,7 +18,7 @@ export const GET = async (req, { params }) => {
     } catch (error) {
         console.log(error);
         return new NextResponse(
-            JSON.stringify({ message: `Failed to GET post with slug of ${slug}` }, { status: 500 })
+            JSON.stringify({ message: `Failed to GET tread with slug of ${slug}` }, { status: 500 })
         );
     }
 };
@@ -45,7 +45,7 @@ export const DELETE = async (req, { params }) => {
     } catch (error) {
         console.log(error);
         return new NextResponse(
-            JSON.stringify({ message: `Failed to DELETE post with slug of ${slug}` }, { status: 500 })
+            JSON.stringify({ message: `Failed to DELETE tread with slug of ${slug}` }, { status: 500 })
         );
     }
 };
@@ -92,7 +92,7 @@ export const PUT = async (req, { params }) => {
     } catch (error) {
         console.log(error);
         return new NextResponse(
-            JSON.stringify({ message: `Failed to UPDATE post with slug of ${slug}` }, { status: 500 })
+            JSON.stringify({ message: `Failed to UPDATE tread with slug of ${slug}` }, { status: 500 })
         );
     }
 };

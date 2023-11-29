@@ -3,15 +3,8 @@ import { NextResponse } from "next/server"
 import { getAuthSession } from "@/utils/auth";
 
 // GET SINGLE COMMENT
-export const GET = async ({ req, params: { id } }) => {
-    console.log(id)
-    const session = await getAuthSession();
-
-    if (!session) {
-        return new NextResponse(
-            JSON.stringify({ message: "Not Authenticated!" }, { status: 401 })
-        )
-    };
+export const GET = async (req, { params }) => {
+    const { id } = params;
 
     try {
         const comment = await prisma.comment.findUnique({
@@ -26,9 +19,10 @@ export const GET = async ({ req, params: { id } }) => {
     }
 };
 
+
 // DELETE SINGLE COMMENT
-export const DELETE = async ({ req, params: { id } }) => {
-    console.log(id)
+export const DELETE = async (req, { params }) => {
+    const { id } = params;
     const session = await getAuthSession();
 
     if (!session) {
@@ -51,7 +45,8 @@ export const DELETE = async ({ req, params: { id } }) => {
 };
 
 // UPDATE SINGLE COMMENT
-export const PUT = async ({ req, params: { id } }) => {
+export const PUT = async (req, { params }) => {
+    const { id } = params;
     console.log(id)
     const session = await getAuthSession();
   

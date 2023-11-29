@@ -22,7 +22,7 @@ const getTreads = async (page, tag) => {
 const Middle = async ({page, tag}) => {
     const { posts, count } = await getTreads(page, tag);
     // post per page
-    const POST_PER_PAGE = 3;
+    const POST_PER_PAGE = 10;
     const hasPrev = POST_PER_PAGE * (page - 1) > 0;
     const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
 

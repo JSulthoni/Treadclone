@@ -12,7 +12,7 @@ export const GET = async (req) => {
     const sort = searchParams.get('sort');
     const limit = searchParams.get('limit');
 
-    const POST_PER_PAGE = 3;
+    const POST_PER_PAGE = 10;
 
     // Base query
     const baseQuery = {
@@ -45,7 +45,7 @@ export const GET = async (req) => {
         return new NextResponse(JSON.stringify({ posts, count }, { status: 200 }))
     } catch (error) {
         console.log(error)
-        return new NextResponse(JSON.stringify({ message: 'Failed to GET all post'}, {status: 500}));
+        return new NextResponse(JSON.stringify({ message: 'Failed to GET all tread'}, {status: 500}));
     }
 };
 
@@ -86,7 +86,7 @@ export const POST = async (req) => {
     } catch (error) {
         console.log('Error during the post creation', error);
         return new NextResponse(
-            JSON.stringify({ message: 'Failed to POST' }, { status: 500 })
+            JSON.stringify({ message: 'Failed to POST a tread' }, { status: 500 })
         );
     }
 }; 

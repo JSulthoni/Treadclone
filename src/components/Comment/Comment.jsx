@@ -14,7 +14,7 @@ import useSWR from 'swr';
 import Auth from '../Auth/Auth';
 import CommentItem from '../CommentItem/CommentItem';
 import CommentControl from '../CommentControl/CommentControl';
-import fetcher from '@/fetcher/fetcher';
+import fetcher from '@/utils/fetcher';
 
 
 const style = {
@@ -25,7 +25,7 @@ const style = {
 
 const Comment = ({slug}) => {
     const { status } = useSession();
-    const {data, mutate, isLoading} = useSWR(`http://localhost:3000/api/comments?postSlug=${slug}`, fetcher);
+    const {data, mutate, isLoading} = useSWR(`/api/comments?postSlug=${slug}`, fetcher);
     
     return (
         <Box sx={{width: '100%', maxWidth: '800px'}}>

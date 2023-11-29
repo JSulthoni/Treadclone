@@ -7,6 +7,6 @@ export const GET = async () => {
         return new NextResponse(JSON.stringify(tags, { status: 200 }))
     } catch (error) {
         console.log(error);
-        return new NextResponse(JSON.stringify({message: 'Something went wrong'}, {status: 500}));
+        return new NextResponse(JSON.stringify({message: 'Failed to GET the tags'}, {status: 500}));
     }
 };

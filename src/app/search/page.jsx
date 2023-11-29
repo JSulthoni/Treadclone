@@ -1,7 +1,11 @@
+'use client'
+
 import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 import Middle from '@/components/Middle/Middle';
 import { useSearchParams } from 'next/navigation';
+import useSWR from 'swr';
+import fetcher from '@/utils/fetcher';
 
 const styleBox = {
     width: '100%',
@@ -18,13 +22,15 @@ const stylePaper = {
     width: '100%', 
     maxWidth: '800px'
 };
-    
-const Search = ({searchParams}) => {
-    const page = parseInt(searchParams) || 1;
-    const { tag } = searchParams || '';
 
+
+
+const Search = () => {
     const searchQuery = useSearchParams();
-    console.log('searchQuery: ', searchQuery);
+    const query = searchQuery ? searchQuery.get('query') : null;
+    const encodedQuery = encodeURI(query || '');
+
+    const { data, mutate, isLoading } = useSWR(`/api/search?query=${encodedQuery}`, fetcher)
 
     return (
         <Box sx={styleBox}>
@@ -33,9 +39,8 @@ const Search = ({searchParams}) => {
                 sx={{
                     textTransform: 'capitalize'
                 }}
-                variant='h3'>Discover {tag} Treads</Typography>
+                variant='h3'>Discover Treads</Typography>
             </Paper>
-            <Middle page={page} tag={tag}/>
         </Box>
     );
 }

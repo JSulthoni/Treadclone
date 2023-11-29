@@ -40,7 +40,6 @@ const styleBox = {
     gap: '10px',
 };
 
-
 const Navbar = () => {
     const [anchor, setAnchor] = useState(null)
     const open = Boolean(anchor)
@@ -51,10 +50,18 @@ const Navbar = () => {
         setAnchor(null)
     }
 
+    const dropdownMenu = [
+        [ 'Profile', <Avatar alt={data?.user.name} src={data?.user.image} /> ],
+        [ 'Add another account', <ListItemIcon><PersonAdd/></ListItemIcon> ],
+        [ '', <Auth /> ]
+    ]
+
     return (
         <>
         <AppBar>
             <Toolbar sx={styleToolbar}>
+
+                {/* Logo and drawer button */}
                 <Box sx={{flex: '1 1 100%'}}>
                     <Link href={'/'}>
                         <Typography 
@@ -68,9 +75,12 @@ const Navbar = () => {
                         <LunchDiningTwoToneIcon color='inherit' size='large' sx={{display: {xs: 'block', sm:'none'}}}/>
                     </IconButton>
                 </Box>
+
+                {/* Searchbar */}
                 <Box sx={{flex: '1 1 100%', minWidth: {xs: '300px', sm: '450px'}}}>
                     <SearchBar />
                 </Box>
+
                 <Box sx={styleBox}>
                     <IconButton>
                         <Badge badgeContent={4} color='error'>
@@ -105,27 +115,12 @@ const Navbar = () => {
                 }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-                { loggedIn() ? 
-                    <>
-                    <MenuItem onClick={handleClose}>
-                        <Avatar alt={data?.user.name} src={data?.user.image} /> Profile
+                {(loggedIn() ? dropdownMenu : dropdownMenu.slice(-1)).map((menu, index) => (
+                    <MenuItem key={index} onClick={handleClose}>
+                        {menu[1]}
+                        {menu[0]}
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                        <ListItemIcon>
-                            <PersonAdd />
-                        </ListItemIcon>
-                        Add another account
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem onClick={handleClose}>
-                            <Auth />
-                    </MenuItem>
-                    </>
-                    :
-                    <MenuItem onClick={handleClose}>
-                            <Auth/>
-                    </MenuItem>
-                }
+                ))}
             </Menu>
         </AppBar>
         {/* Drawerbar menu */}

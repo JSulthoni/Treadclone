@@ -8,7 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { ModeContext } from '@/context/ModeContext';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { 
     Apps, 
     Article, 
@@ -24,10 +24,48 @@ import { signOut, useSession } from 'next-auth/react';
 import Auth from '../Auth/Auth';
 import Avatar from '@mui/material/Avatar';
 import loggedIn from '@/utils/loggedin';
+import { useRouter } from 'next/navigation';
+
+
+
+
+
 
 const Drawerbar = ({open, setOpen}) => {
     const { mode, toggle } = useContext(ModeContext)
     const { data } = useSession()
+    const router = useRouter();
+
+    function handleDrawer(draw) {
+        switch (draw) {
+            case 'Home' :
+                router.push('/');
+                break;
+            case 'Treads' :
+                router.push('/treads');
+                break;
+            case 'Auth' :
+                signOut();
+                break;
+            default:
+                break;
+        }
+    }
+
+    const drawerComponent = [
+        ['Home', <Home/>],
+        ['Treads', <SubjectOutlined/>],
+        ['Direct Messages', <Inbox/>],
+        ['Pinned', <PushPin/>],
+        ['Drafts', <Article/>],
+        ['Apps', <Apps/>],
+        ['Profile', <Avatar sx={{width: '26px', height: '26px'}} alt={data?.user.name} src={data?.user.image}/>],
+        ['Add another account', <PersonAdd/>],
+        ['', <Auth/>],
+        ['Settings', <Settings/>],
+        [ <Switch sx={{marginLeft: '-12px'}} onChange={toggle} checked={mode === 'dark'}/>, <ModeNight/>],
+    ]
+
     return (
         <Drawer
             anchor='left'
@@ -39,104 +77,37 @@ const Drawerbar = ({open, setOpen}) => {
                 { loggedIn() ? 
                 <nav aria-label='drawerbar navigation'>
                     <List>
-                        <ListItem disablePadding>
-                            <ListItemButton component='a' href='/'>
-                                <ListItemIcon>
-                                    <Home />
-                                </ListItemIcon>
-                                <ListItemText primary="Home" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton component='a' href='/treads'>
-                                <ListItemIcon>
-                                    <SubjectOutlined />
-                                </ListItemIcon>
-                                <ListItemText primary="Treads" />
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <List>
-                        {['Direct Messages', 'Pinned', 'Drafts', 'Apps'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                            <ListItemIcon>
-                                {index === 0 ? <Inbox /> : index === 1 ? <PushPin /> : index === 2 ? <Article /> : <Apps />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                        ))}
-                    </List>
-                    <Divider />
-                    <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Avatar sx={{width: '26px', height: '26px'}} alt={data?.user.name} src={data?.user.image} /> 
-                                </ListItemIcon>
-                                <ListItemText primary="Profile" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <PersonAdd />
-                                </ListItemIcon>
-                                <ListItemText primary="Add another account" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding onClick={signOut}>
-                            <ListItemButton>
-                                <Auth />
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Settings />
-                                </ListItemIcon>
-                                <ListItemText primary="Settings" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <ModeNight />
-                                </ListItemIcon>
-                                <Switch onChange={toggle} checked={mode === 'dark'}/>
-                            </ListItemButton>
-                        </ListItem>
+                    {drawerComponent.map((draw, index) => (
+                            <React.Fragment key={index}>
+                            <ListItem disablePadding onClick={() => handleDrawer(draw[0])}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        {draw[1]}
+                                    </ListItemIcon>
+                                    <ListItemText primary={draw[0]} />
+                                </ListItemButton>
+                            </ListItem>
+                            {index === 1 || index === 5 || index === 8 ? <Divider sx={{marginBlock: '10px'}} /> : null}
+                            </React.Fragment>
+                    ))}
                     </List> 
                 </nav>
                 : 
                 <nav>
                     <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <Auth />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Settings />
-                                </ListItemIcon>
-                                <ListItemText primary="Settings" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <ModeNight />
-                                </ListItemIcon>
-                                <Switch onChange={toggle} checked={mode === 'dark'}/>
-                            </ListItemButton>
-                        </ListItem>
+                    {drawerComponent.slice(-3).map((draw, index) => (
+                            <React.Fragment key={index}>
+                            <ListItem disablePadding onClick={() => handleDrawer(draw[0])}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        {draw[1]}
+                                    </ListItemIcon>
+                                    <ListItemText primary={draw[0]} />
+                                </ListItemButton>
+                            </ListItem>
+                            {index < 2 ? <Divider sx={{marginBlock: '10px'}}/> : null}
+                            </React.Fragment>
+                    ))}
                     </List> 
                 </nav>}
             </Box>

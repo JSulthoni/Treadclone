@@ -2,20 +2,26 @@
 
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 import styles from './SearchBar.module.scss'
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 
 const SearchBar = () => {
-    const [search, setSearch] = useState('')
-    const open = Boolean(search);
+    const [searchQuery, setSearchQuery] = useState('')
+    console.log(searchQuery)
+
+
     const router = useRouter();
 
     const onSearch = (event) => {
-        event.PreventDefault();
-        const encodedSearch = encodeURI(search);
+        event.preventDefault();
+
+        if (typeof searchQuery !== 'string') {
+            return;
+        }
+
+        const encodedSearch = encodeURI(searchQuery);
         console.log(encodedSearch)
         router.push(`/search?query=${encodedSearch}`)
     }
@@ -26,8 +32,8 @@ const SearchBar = () => {
                 id= 'searchbar'
                 variant= 'outlined'
                 fullWidth
-                value={search}
-                onChange={(event) => setSearch(event.target.value)} 
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)} 
                 InputProps={{
                     startAdornment: <InputAdornment position="start">Search:</InputAdornment>,
                 }}

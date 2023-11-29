@@ -1,4 +1,6 @@
-import React from 'react';
+'use client'
+
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -10,112 +12,144 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
+import { getPopular, getTags, getUser } from '@/utils/getter';
 
-const getTags = async () => {
-    const BASE_URL = process.env.BASE_URL
-    const res = await fetch('http://localhost:3000/api/tags', {
-        cache: 'no-store'
-    })
+// Separate compoent for rendering trending tags
+const TrendingTags = ({ tags }) => (
+    <Box sx={{ padding: '20px', marginBlockEnd: '20px' }}>
+        {tags.map((tag) => (
+            <Link key={tag.id} href={`/treads?tag=${tag.title}`}>
+                <Button variant="outlined">#{tag.title}</Button>
+            </Link>
+        ))}
+    </Box>
+);
+
+// Separate component for rendering a single post item
+const PostItem = ({ post }) => (
+    <Link href={`/tread/${post.slug}`} key={post.id}>
+        <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+                <Avatar alt={post.user.name} src={post.user.image} />
+            </ListItemAvatar>
+            <ListItemText
+                primary={post.title}
+                secondary={
+                    <>
+                    <Typography
+                        sx={{ display: 'inline' }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                    >
+                        {post.user.name} : <br></br>
+                    </Typography>
+                    {post.desc}
+                    </>
+                }
+            />
+        </ListItem>
+        <Divider variant="inset" component="li" />
+    </Link>
+);
+
+// Separate component for rendering suggested user
+const SuggestedUser = ({ user }) => (
+    <React.Fragment key={user.id}>
+        <ListItem alignItems='flex-start'>
+            <ListItemAvatar>
+                <Avatar alt={user.name} src={user.image} />
+            </ListItemAvatar>
+            <ListItemText
+                primary={user.name}
+                secondary={
+                    <>
+                        <Typography
+                            sx={{display: 'inline'}}
+                            component='span'
+                            variant='body2'
+                            color='text.primary'
+                            >
+                            {user.posts.length} Treads
+                        </Typography>
+                    </>
+                }/>
+        </ListItem>
+        <Divider variant='inset' component='li' />
+    </React.Fragment>
+)
+
+const Rightbar = () => {
+    const [loading, setLoading] = useState(true)
+    const [tags, setTags] = useState([]);
+    const [popular, setPopular] = useState([]);
+    const [users, setUsers] = useState([]);
+
     
-    if (!res.ok) {
-        throw new Error('Failed to get tags')
-    }
-
-    return res.json()
-};
-
-
-const getPopular = async () => {
-    const res = await fetch('http://localhost:3000/api/posts?sort=views&limit=3', {
-        cache: 'no-store'
-    })
-
-    if (!res.ok) {
-        throw new Error('Failed to get popular post')
-    }
-
-    return res.json()
-}
-
-const styleBox = {
-    width: '20%'
-};
-
-const styleBox1 = {
-    padding: '20px',
-    display: 'flex', 
-    flexWrap: 'wrap',
-    gap: '10px',
-    marginBlockEnd: '20px'
-}
-
-
-const Rightbar = async () => {
-    const tags = await getTags();
-    const popular = await getPopular();
+    useEffect(() => {
+        const fetchData = async() => {
+            try {
+                const _tags = await getTags()
+                const _popular = await getPopular()
+                const _users = await getUser()
+                setTags(_tags)
+                setPopular(_popular.posts)
+                setUsers(_users)
+            } catch (error) {
+                console.log(error)
+            }
+            setLoading(false)
+        }
+        fetchData()
+    }, [])
 
     return (
-        <Box sx={{flex:'1 1 20%', display: {xs: 'none', lg: 'block'}}}>
-            <Box position= 'fixed' sx={styleBox}>
-                <Paper>
-                    <Box display='grid' placeItems= 'center start' p={2}>
-                    <Typography
-                        variant='h6'
-                        >What's trending?</Typography>
-                    </Box>
-                    <Divider />
-                    <Box sx={styleBox1}>
-                        {tags.map((tag) => {
-                            return(
-                                <Link key={tag.id} href={`/treads?tag=${tag.title}`}>
-                                    <Button variant='outlined'>#{tag.title}</Button>
-                                </Link>
-                            )
-                        })}
-                    </Box>
-                </Paper>
-                <Paper>
-                <Box display='grid' placeItems= 'center start' p={2}>
-                    <Typography
-                        variant='h6'
-                        >Get's updated with the current popular</Typography>
+        <Box sx={{ flex: '1 1 20%', display: { xs: 'none', lg: 'block' } }}>
+        { loading ? 
+        <Box></Box> 
+        : 
+        <Box position="sticky" sx={{ width: '100%', top: '0', right: '0' }}>
+            {/* Trending Tags */}
+            <Paper>
+                <Box display="grid" placeItems="center start" p={2}>
+                    <Typography variant="h6">What's trending?</Typography>
                 </Box>
                 <Divider />
-                <List sx={{ width: '100%', maxWidth: 400, bgcolor: 'transparent' }}>
-                    {popular?.posts.map((post) => {
-                        const { user } = post;
-                        return (
-                        <Link href={`/tread/${post.slug}`} key={post.id}>
-                            <ListItem alignItems="flex-start">
-                                    <ListItemAvatar>
-                                        <Avatar alt={user.name} src={user.image} />
-                                    </ListItemAvatar>
-                                <ListItemText
-                                    primary={post.title}
-                                    secondary={
-                                    <>
-                                    <Typography
-                                        sx={{ display: 'inline' }}
-                                        component="span"
-                                        variant="body2"
-                                        color="text.primary"
-                                    >
-                                    {user.name} : <br></br>
-                                    </Typography>
-                                    {post.desc}
-                                    </>
-                                }
-                                />
-                            </ListItem>
-                            <Divider variant="inset" component="li" />
-                        </Link>
-                        )
-                    })}
-                </List>
-                </Paper>
-            </Box>
-        </Box>
-    );
+                <TrendingTags tags={tags} />
+            </Paper>
+
+            {/* Popular Posts */}
+            <Paper>
+                <Box display="grid" placeItems="center start" p={2}>
+                    <Typography variant="h6">Get's updated with the populars!</Typography>
+                </Box>
+                <Divider />
+                <Box sx={{ marginBlockEnd: '20px' }}>
+                    <List sx={{ width: '100%', maxWidth: 400, bgcolor: 'transparent' }}>
+                    {popular?.map((post) => (
+                        <PostItem key={post.id} post={post} />
+                    ))}
+                    </List>
+                </Box>
+            </Paper>
+
+            {/* Suggested Users */}
+            <Paper>
+                <Box display="grid" placeItems="center start" p={2}>
+                    <Typography variant="h6">Who's to follow?</Typography>
+                </Box>
+                <Divider />
+                <Box sx={{ marginBlockEnd: '20px' }}>
+                    <List sx={{ width: '100%', maxWidth: 400, bgcolor: 'transparent' }}>
+                    {users?.map((user) => (
+                        <SuggestedUser key={user.id} user={user} />
+                    ))}
+                    </List>
+                </Box>
+            </Paper>
+        </Box>}
+    </Box>
+  );
 }
 
 export default Rightbar;

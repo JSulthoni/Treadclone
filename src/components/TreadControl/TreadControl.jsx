@@ -9,7 +9,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { AddLink, Image, PersonAdd } from '@mui/icons-material';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { getStorage, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { ref as firebaseRef} from 'firebase/storage'; // Renaming ref to avoid warning
 import { app } from '@/utils/firebase';
 import { useRouter } from 'next/navigation';
 
@@ -44,7 +45,7 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
             // Giving each image unique name with datetime
             const name = new Date().getTime() + file.name
             
-            const storageRef = ref(storage, name);
+            const storageRef = firebaseRef(storage, name);
             const uploadTask = uploadBytesResumable(storageRef, file);
             uploadTask.on('state_changed', 
             (snapshot) => {

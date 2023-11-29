@@ -26,12 +26,35 @@ const styleBox = {
     width: {md: '30%', lg: '20%'}
 };
 
-const bar = {
-    'Home' : <Home/>
-}
-
 const Sidebar = () => {
     const { mode, toggle } = useContext(ModeContext);
+
+    function handleSidebar(side) {
+        switch (side) {
+            case 'Home' :
+                router.push('/');
+                break;
+            case 'Treads' :
+                router.push('/treads');
+                break;
+            case 'Auth' :
+                signOut();
+                break;
+            default:
+                break;
+        }
+    }
+
+    const sidebarComponent = [
+        ['Home', <Home/>],
+        ['Treads', <SubjectOutlined/>],
+        ['Direct Messages', <Inbox/>],
+        ['Pinned', <PushPin/>],
+        ['Drafts', <Article/>],
+        ['Apps', <Apps/>],
+        ['Settings', <Settings/>],
+        [ <Switch sx={{marginLeft: '-12px'}} onChange={toggle} checked={mode === 'dark'}/>, <ModeNight/>],
+    ]
 
     return (
         <Box sx={{flex:'1 1 20%', display: {xs: 'none', sm: 'block'}}}>
@@ -40,75 +63,36 @@ const Sidebar = () => {
                     { loggedIn() ? 
                     <nav>
                         <List>
-                            <ListItem disablePadding>
-                                <ListItemButton component='a' href='/'>
-                                    <ListItemIcon>
-                                        <Home />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Home" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton component='a' href='/treads'>
-                                    <ListItemIcon>
-                                        <SubjectOutlined />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Treads" />
-                                </ListItemButton>
-                            </ListItem>
-                        </List>
-                    <Divider />
-                        <List>
-                            {['Direct Messages', 'Pinned', 'Drafts', 'Apps'].map((text, index) => (
-                            <ListItem key={text} disablePadding>
-                                <ListItemButton>
-                                <ListItemIcon>
-                                    {index === 0 ? <Inbox /> : index === 1 ? <PushPin /> : index === 2 ? <Article /> : <Apps />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                            ))}
-                        </List>
-                    <Divider />
-                        <List>
-                            <ListItem disablePadding>
+                        {sidebarComponent.map((side, index) => (
+                            <React.Fragment key={index}>
+                            <ListItem disablePadding onClick={() => handleSidebar(side[0])}>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <Settings />
+                                        {side[1]}
                                     </ListItemIcon>
-                                    <ListItemText primary="Settings" />
+                                    <ListItemText primary={side[0]} />
                                 </ListItemButton>
                             </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton >
-                                    <ListItemIcon>
-                                        <ModeNight />
-                                    </ListItemIcon>
-                                    <Switch onChange={toggle} checked={mode === 'dark'}/>
-                                </ListItemButton>
-                            </ListItem>
+                            {index === 1 || index === 5 ? <Divider sx={{marginBlock: '10px'}} /> : null}
+                            </React.Fragment>
+                        ))}
                         </List>
                     </nav>
                     :
                     <nav>
                         <List>
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <Settings />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Settings" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton >
-                                    <ListItemIcon>
-                                        <ModeNight />
-                                    </ListItemIcon>
-                                    <Switch onChange={toggle} checked={mode === 'dark'}/>
-                                </ListItemButton>
-                            </ListItem>
+                            {sidebarComponent.slice(-2).map((side, index) => (
+                                <React.Fragment key={index}>
+                                <ListItem disablePadding onClick={() => handleSidebar(side[0])}>
+                                    <ListItemButton>
+                                        <ListItemIcon>
+                                            {side[1]}
+                                        </ListItemIcon>
+                                        <ListItemText primary={side[0]} />
+                                    </ListItemButton>
+                                </ListItem>
+                                </React.Fragment>
+                            ))}
                         </List>
                     </nav>}
                 </Paper>

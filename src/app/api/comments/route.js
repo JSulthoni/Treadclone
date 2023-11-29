@@ -7,6 +7,7 @@ import { NextResponse } from "next/server"
 export const GET = async (req) => {
     const { searchParams } = new URL(req.url);
     const postSlug = searchParams.get('postSlug')
+
     try {
         const comments = await prisma.comment.findMany({
             where: { ...(postSlug && { postSlug }) },
@@ -14,7 +15,7 @@ export const GET = async (req) => {
         });
         return new NextResponse(JSON.stringify({comments}, { status: 200 }))
     } catch (error) {
-        return new NextResponse(JSON.stringify({message: 'Something went wrong'}, {status: 500}));
+        return new NextResponse(JSON.stringify({message: 'Failed to GET all comments'}, {status: 500}));
     };
 };
 
@@ -34,6 +35,6 @@ export const POST = async (req) => {
         return new NextResponse(JSON.stringify({comment}, { status: 200 }))
     } catch (error) {
         console.log(error);
-        return new NextResponse(JSON.stringify({message: 'Something went wrong'}, {status: 500}));
+        return new NextResponse(JSON.stringify({message: 'Failed to POST the comment'}, {status: 500}));
     };
 };
