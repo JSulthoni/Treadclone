@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -55,6 +55,24 @@ const Navbar = () => {
         [ 'Add another account', <ListItemIcon><PersonAdd/></ListItemIcon> ],
         [ '', <Auth /> ]
     ]
+
+    // Close the drawer if viewport's width goes beyond 600px breakpoint 
+    useEffect(() => {
+        const setWidth = () => {
+            const currentWidth = window.innerWidth;
+            if (currentWidth > 600) {
+                setOpenDrawer(false)
+            }
+        }
+        window.addEventListener('resize', setWidth)
+        setWidth();
+
+        // Cleanup: Remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('resize', setWidth);
+        };
+    }, [])
+
 
     return (
         <>

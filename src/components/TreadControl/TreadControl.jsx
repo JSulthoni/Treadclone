@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 
 
 const stylePaper1 = {
-    width: {xs: '80%', md: '800px'}, 
+    width: {xs: '100dvw', sm:'600px', md: '800px'}, 
     padding: '20px'
 };
 
@@ -103,7 +103,7 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
 
     // Function to post a single tread
     const postTread = async () => {
-        console.log('Request Payload:', {
+        console.log('Post Request Payload:', {
             title,
             desc,
             img: imageURL,
@@ -137,6 +137,13 @@ const TreadControl = ({method, carddata, slug, closeModal}) => {
 
     // Function to update a single tread
     const updateTread = async () => {
+        console.log('Put Request Payload:', {
+            title,
+            desc,
+            img: imageURL,
+            slug: slugify(title),
+            postTags: tagify(desc)
+        });
         const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
             method: 'PUT',
             body: JSON.stringify({

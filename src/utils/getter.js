@@ -12,8 +12,8 @@ export const getTags = async() => {
 };
 
 
-export const getPopular = async(limit) => {
-    const res = await fetch(`http://localhost:3000/api/posts?sort=views&limit=${limit}`, {
+export const getPopular = async() => {
+    const res = await fetch(`http://localhost:3000/api/posts?sort=views&limit=10`, {
         cache: 'no-store'
     })
 

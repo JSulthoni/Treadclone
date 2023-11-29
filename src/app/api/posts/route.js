@@ -33,7 +33,7 @@ export const GET = async (req) => {
 
     // Apply sorting and limit for popular posts
     if (sort === 'views' && limit) {
-        baseQuery.take = +limit; // Converting limit to number
+        baseQuery.take = parseInt(limit); // Converting limit from string to int
         baseQuery.orderBy = { views: 'desc' }
     }
 

@@ -22,7 +22,7 @@ const LoginPage = () => {
 
     if (status === 'loading') {
         return (
-            <Box sx={{flex: '5', display: 'grid', placeItems: 'center', minHeight: '100dvh'}}>
+            <Box sx={{flex: '5', display: 'grid', alignItems: 'center', justifyItems: 'center', minHeight: '100dvh'}}>
                 <Paper variant='outlined'>
                     <Typography
                         variant='h3'
@@ -41,7 +41,7 @@ const LoginPage = () => {
     const provider = ['github', 'google', 'facebook', 'discord', 'twitter', 'kakao']
 
     return (
-        <Box sx={{display: 'grid', placeItems: 'center', minHeight: '100dvh'}}>
+        <Box sx={{display: 'grid', alignItems: 'center', justifyItems: 'center', minHeight: '100dvh'}}>
             <Paper variant='outlined' sx={{padding: '20px', textAlign: 'center',}}>
                 <Typography
                     variant='h6'

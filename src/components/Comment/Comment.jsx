@@ -19,7 +19,8 @@ import fetcher from '@/utils/fetcher';
 
 const style = {
     display: 'grid',
-    placeItems: 'center center',
+    alignItems: 'center', 
+    justifyItems: 'center',
     marginBlockStart: '20px'
 };
 

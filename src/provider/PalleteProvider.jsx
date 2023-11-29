@@ -73,6 +73,7 @@ const PalleteProvider = ({children}) => {
     const theme = createTheme(mode === 'light' ? light : dark)
     const [mount, setMount] = useState(false)
     
+    // This part means to apply the ThemeProvider after the component is mounted
     useEffect(() => {
         setMount(true)
         return () => {
@@ -81,9 +82,11 @@ const PalleteProvider = ({children}) => {
 
     if (mount) {
         return (
-            <ThemeProvider theme={theme}>
-                {children}
-            </ThemeProvider>
+            <React.Fragment>
+                <ThemeProvider theme={theme}>
+                    {children}
+                </ThemeProvider>
+            </React.Fragment>
         );
     }
 }

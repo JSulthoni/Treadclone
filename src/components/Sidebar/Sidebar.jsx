@@ -21,6 +21,8 @@ import {
     SubjectOutlined } from '@mui/icons-material';
 import { ModeContext } from '@/context/ModeContext';
 import loggedIn from '@/utils/loggedin';
+import { useRouter } from 'next/navigation';
+import Footer from '../Footer/Footer';
 
 const styleBox = {
     width: {md: '30%', lg: '20%'}
@@ -28,6 +30,7 @@ const styleBox = {
 
 const Sidebar = () => {
     const { mode, toggle } = useContext(ModeContext);
+    const router = useRouter();
 
     function handleSidebar(side) {
         switch (side) {
@@ -59,7 +62,7 @@ const Sidebar = () => {
     return (
         <Box sx={{flex:'1 1 20%', display: {xs: 'none', sm: 'block'}}}>
             <Box position='fixed' sx={styleBox}>
-                <Paper>
+                <Paper sx={{height: '90dvh'}}>
                     { loggedIn() ? 
                     <nav>
                         <List>
@@ -77,6 +80,9 @@ const Sidebar = () => {
                             </React.Fragment>
                         ))}
                         </List>
+                        <Box sx={{position: 'absolute', bottom: '0', width: '100%'}}>
+                            <Footer/>
+                        </Box>
                     </nav>
                     :
                     <nav>
@@ -94,6 +100,9 @@ const Sidebar = () => {
                                 </React.Fragment>
                             ))}
                         </List>
+                        <Box sx={{position: 'absolute', bottom: '0', width: '100%'}}>
+                            <Footer/>
+                        </Box>
                     </nav>}
                 </Paper>
             </Box>

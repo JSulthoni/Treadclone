@@ -23,7 +23,8 @@ import CommentControl from '../CommentControl/CommentControl';
 
 const styleModal = {
     display: 'grid',
-    placeItems: 'center center',
+    alignItems: 'center', 
+    justifyItems: 'center',
     gap: 20,
     padding: '0px',
     margin: '0px',

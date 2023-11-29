@@ -14,7 +14,6 @@ import {
     Article, 
     Home, 
     Inbox, 
-    Login, 
     ModeNight, 
     PersonAdd, 
     PushPin, 
@@ -25,6 +24,7 @@ import Auth from '../Auth/Auth';
 import Avatar from '@mui/material/Avatar';
 import loggedIn from '@/utils/loggedin';
 import { useRouter } from 'next/navigation';
+import Footer from '../Footer/Footer';
 
 
 
@@ -110,6 +110,9 @@ const Drawerbar = ({open, setOpen}) => {
                     ))}
                     </List> 
                 </nav>}
+                <Box sx={{position: 'absolute', bottom: '0', width: '100%'}}>
+                    <Footer/>
+                </Box>
             </Box>
         </Drawer>
     );

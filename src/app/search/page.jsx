@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Typography, Paper, Pagination } from '@mui/material';
 import Middle from '@/components/Middle/Middle';
 import { useSearchParams } from 'next/navigation';
 import useSWR from 'swr';
@@ -18,7 +18,8 @@ const styleBox = {
 const stylePaper = {
     paddingBlock: '20px', 
     display: 'grid', 
-    placeItems: 'center center',
+    alignItems: 'center', 
+    justifyItems: 'center',
     width: '100%', 
     maxWidth: '800px'
 };
@@ -32,6 +33,8 @@ const Search = () => {
 
     const { data, mutate, isLoading } = useSWR(`/api/search?query=${encodedQuery}`, fetcher)
 
+
+
     return (
         <Box sx={styleBox}>
             <Paper variant='outlined' sx={stylePaper}>
@@ -41,6 +44,15 @@ const Search = () => {
                 }}
                 variant='h3'>Discover Treads</Typography>
             </Paper>
+            {!isLoading && 
+                <React.Fragment>
+                    {data?.map((post) => {
+                        return(
+                            <CardItem key={post.id} carddata={post}/>
+                        )
+                    })}
+                </React.Fragment>
+            }
         </Box>
     );
 }

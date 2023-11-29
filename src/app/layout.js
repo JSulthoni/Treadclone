@@ -26,7 +26,6 @@ export default function RootLayout({ children }) {
       <AuthProvider>
         <ModeContextProvider>
           <PalleteProvider>
-            <div className='container'>
               <Box bgcolor={'background.default'} color={'text.primary'}>
                 <Navbar />
                 <Stack 
@@ -42,7 +41,6 @@ export default function RootLayout({ children }) {
                 </Stack>
                 <AddPost />
               </Box>
-            </div>
           </PalleteProvider>
         </ModeContextProvider>
       </AuthProvider>

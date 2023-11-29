@@ -14,7 +14,8 @@ const styleBox1 = {
 const stylePaper = {
     paddingBlock: '20px', 
     display: 'grid', 
-    placeItems: 'center center',
+    alignItems: 'center', 
+    justifyItems: 'center',
     width: '100%',
     maxWidth: '800px'
 };

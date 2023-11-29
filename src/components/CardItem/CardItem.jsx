@@ -29,7 +29,8 @@ import { useRouter } from 'next/navigation';
 
 const styleModal = {
     display: 'grid',
-    placeItems: 'center center',
+    alignItems: 'center', 
+    justifyItems: 'center',
     padding: '0px',
     margin: '0px',
     inset: '0'
@@ -157,12 +158,14 @@ const CardItem = ({key, carddata}) => {
                 aria-labelledby="update-modal-title"
                 aria-describedby="update-modal-description"
                 >
-                <TreadControl 
-                    method={'PUT'}
-                    carddata={carddata} 
-                    slug={carddata.slug}
-                    closeModal={closeModal}
-                />
+                <Box sx={{marginInline: '100%'}}>
+                    <TreadControl 
+                        method={'PUT'}
+                        carddata={carddata} 
+                        slug={carddata.slug}
+                        closeModal={closeModal}
+                    />
+                </Box>
             </Modal>
         </Card>
     );

@@ -111,7 +111,7 @@ const Rightbar = () => {
         <Box position="sticky" sx={{ width: '100%', top: '0', right: '0' }}>
             {/* Trending Tags */}
             <Paper>
-                <Box display="grid" placeItems="center start" p={2}>
+                <Box sx={{display: 'grid', alignItems: 'center', justifyItems: 'start', padding: '20px'}}>
                     <Typography variant="h6">What's trending?</Typography>
                 </Box>
                 <Divider />
@@ -120,7 +120,7 @@ const Rightbar = () => {
 
             {/* Popular Posts */}
             <Paper>
-                <Box display="grid" placeItems="center start" p={2}>
+                <Box sx={{display: 'grid', alignItems: 'center', justifyItems: 'start', padding: '20px'}}>
                     <Typography variant="h6">Get's updated with the populars!</Typography>
                 </Box>
                 <Divider />
@@ -135,7 +135,7 @@ const Rightbar = () => {
 
             {/* Suggested Users */}
             <Paper>
-                <Box display="grid" placeItems="center start" p={2}>
+                <Box sx={{display: 'grid', alignItems: 'center', justifyItems: 'start', padding: '20px'}}>
                     <Typography variant="h6">Who's to follow?</Typography>
                 </Box>
                 <Divider />
