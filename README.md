@@ -25,22 +25,4 @@ yarn dev
 
 6. Look for logs in browser console or terminal to see the result of the request.
 
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file:
-
-`DATABASE_URL`= "mongodb+srv://facenotes:Rje2w1Ao3ziKzq9L@cluster0.ubx5wos.mongodb.net/prisma?ssl=true&retryWrites=true&w=majority"
-
-`FIREBASE_KEY` = AIzaSyDpi79mdlEuN9-GqWplpicF0k_iiRXBkNA
-
-`GOOGLE_ID` = 207161022767-kctvc4h5ubu8sqpb58petln55dj8fk8i.apps.googleusercontent.com
-
-`GOOGLE_SECRET` = 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
-
-`BASE_URL` = http://localhost:3000
-
-`NEXTAUTH_URL` = http://localhost:3000
-
-`NEXTAUTH_SECRET` = any strings
-
 note: credentials provided are for discussion purposes
